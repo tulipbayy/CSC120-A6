@@ -19,12 +19,16 @@ public class Library extends Building {
     }
 
     /**
-     * Adds a book title to the library's collection.
+     * Adds a book title to the library's collection if it's not already present.
      *
      * @param title The title of the book to add.
      */
     public void addTitle(String title) {
-        collection.put(title, true);
+        if (!collection.containsKey(title)) {
+            collection.put(title, true);
+        } else {
+            System.out.println("The title is already in the collection.");
+        }
     }
 
     /**
@@ -34,32 +38,43 @@ public class Library extends Building {
      * @return The title of the book removed, or null if the book was not found.
      */
     public String removeTitle(String title) {
-        Boolean removed = collection.remove(title);
-        if (removed != null) {
+        if (collection.remove(title) != null) {
             return title;
         }
         return null;
     }
 
     /**
-     * Checks out a book from the library.
+     * Checks out a book from the library if it's available.
      *
      * @param title The title of the book to check out.
      */
     public void checkOut(String title) {
         if (collection.containsKey(title)) {
-            collection.put(title, false);
+            if (collection.get(title)) {
+                collection.put(title, false);
+            } else {
+                System.out.println("The book is already checked out.");
+            }
+        } else {
+            System.out.println("The book is not in the collection.");
         }
     }
 
     /**
-     * Returns a book to the library.
+     * Returns a book to the library if it was checked out.
      *
      * @param title The title of the book to return.
      */
     public void returnBook(String title) {
         if (collection.containsKey(title)) {
-            collection.put(title, true);
+            if (!collection.get(title)) {
+                collection.put(title, true);
+            } else {
+                System.out.println("The book is already returned.");
+            }
+        } else {
+            System.out.println("The book is not in the collection.");
         }
     }
 
